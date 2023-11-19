@@ -1,0 +1,60 @@
+# Python Autofix.
+# 
+# This workflow will run ruff format, ruff autofix and commit the changes
+#
+# Note: There may be some discrepancies between black and ruff format requiring black to be run afterwards.
+#
+name: python-autofix
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+
+  ruff-bot:
+      runs-on: ubuntu-latest
+      permissions:
+        contents: write
+      steps:
+        - name: Checkout code
+          uses: actions/checkout@v4
+    
+        - name: Set up Python
+          uses: actions/setup-python@v4
+          with:
+            python-version-file: '/python/pyproject.toml'
+    
+        - name: Install ruff
+          run: pip install ruff
+
+        - name: Run ruff format and fix
+          continue-on-error: true
+          run: |
+              ruff format .
+              ruff check . --fix
+              # This should have a toggle for workflow dispatch
+              # ruff check . --fix --unsafe-fixes
+
+        - name: Check for changes
+          id: check_changes
+          run: |
+            if [ -n "$(git diff)" ]; then
+              echo "::set-output name=changed::true"
+            else
+              echo "::set-output name=changed::false"
+            fi
+          continue-on-error: true
+  
+        # Customize the user name and commit message, and can add an email such as Github Actions email
+        - name: Set up Git and Commit Changes
+          run: |
+            if [ "${{ steps.check_changes.outputs.changed }}" == "true" ]; then
+              git config --local user.name "ruff [BOT]"
+              git config --local user.email "ruff@users.noreply.github.com"
+              git add .
+              git commit -m "ruff ruff 🐕"
+              git push
+            fi

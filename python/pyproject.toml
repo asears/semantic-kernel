@@ -70,13 +70,81 @@ azure-identity = "^1.13.0"
 usearch = "^1.1.1"
 pyarrow = ">=12.0.1,<14.0.0"
 
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 120
+
 [tool.isort]
 profile = "black"
 
 [tool.ruff]
-select = ["E", "F", "I"]
 line-length = 120
 
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+select = [
+    "E",
+    "F",
+    "I",
+    "S",
+    "A",
+    "ANN",
+    "ARG",
+    "ASYNC",
+    "B",
+    "BLE",
+    "C4",
+    "C90",
+    "COM",
+    "CPY",
+    "D",
+    "DTZ",
+    "EM",
+    "ERA",
+    "EXE",
+    "FA",
+    "FBT",
+    "FLY",
+    "FURB",
+    "G",
+    "ICN",
+    "INP",
+    "INT",
+    "ISC",
+    "LOG",
+    "N",
+    "NPY",
+    "PD",
+    "PERF",
+    "PGH",
+    "PIE",
+    "PL",
+    "PT",
+    "PTH",
+    "PYI",
+    "Q",
+    "RET",
+    "RSE",
+    "RUF",
+    "SLF",
+    "SLOT",
+    "T10",
+    "T20",
+    "TCH",
+    "TID",
+    "TRIO",
+    "TRY",
+    "UP",
+    "W",
+    "YTT",
+]
+
+[tool.ruff.lint]
+preview = true
+
+[tool.ruff.format]
+preview = true
+exclude = ["*.pyi"]
+# To exclude notebooks from format
+# exclude = ["*.ipynb"]
