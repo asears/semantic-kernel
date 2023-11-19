@@ -31,7 +31,9 @@ jobs:
           cache: "poetry"
           cache-dependency-path: "python/pyproject.toml"
       - name: Install SemanticKernel
-        run: poetry install --no-ansi
+        run: |
+          poetry lock --no-update
+          poetry install --no-ansi
       - name: Run lint
         run: |
           poetry run pip install --upgrade ruff --pre
@@ -55,8 +57,10 @@ jobs:
           python-version: ${{ matrix.python-version }}
           cache: "poetry"
           cache-dependency-path: "python/pyproject.toml"
-      - name: Add ruff
-        run: poetry install --no-ansi
+      - name: Add black
+        run: |
+          poetry lock --no-update
+          poetry install --no-ansi
       - name: Run lint
         run: |
           poetry run pip install --upgrade black[jupyter] --pre
