@@ -5,10 +5,6 @@ on:
     branches: [ "main", "feature*" ]
     paths:
       - 'python/**'
-  # TODO(AS): Temp testing
-  push:
-    paths:
-      - python/**
 
 defaults:
   run:
@@ -20,7 +16,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.8"]
+        python-version: ["3.8", "3.12"]
     runs-on: ubuntu-latest
     timeout-minutes: 5
 
@@ -37,13 +33,15 @@ jobs:
       - name: Install SemanticKernel
         run: poetry install --no-ansi
       - name: Run lint
-        run: poetry run ruff check .
+        run: |
+          poetry run pip install --upgrade ruff --pre
+          poetry run ruff check .
 
   black:
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.8"]
+        python-version: ["3.8", "3.12"]
     runs-on: ubuntu-latest
     timeout-minutes: 5
 
@@ -57,7 +55,9 @@ jobs:
           python-version: ${{ matrix.python-version }}
           cache: "poetry"
           cache-dependency-path: "python/pyproject.toml"
-      - name: Install SemanticKernel
+      - name: Add ruff
         run: poetry install --no-ansi
       - name: Run lint
-        run: poetry run black --check .
+        run: |
+          poetry run pip install --upgrade black[jupyter] --pre
+          poetry run black --check .
