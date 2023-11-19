@@ -139,7 +139,7 @@ select = [
     "YTT",
 ]
 
-exclude = "T201"
+ignore = "T201"
 
 [tool.ruff.lint]
 preview = true
