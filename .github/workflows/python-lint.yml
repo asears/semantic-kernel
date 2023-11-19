@@ -25,8 +25,8 @@ jobs:
     timeout-minutes: 5
 
     steps:
-      - run: echo "/root/.local/bin" >> $GITHUB_PATH
       - uses: actions/checkout@v4
+      - run: echo "/root/.local/bin" >> $GITHUB_PATH
       - name: Install poetry
         run: pipx install poetry
       - uses: actions/setup-python@v4
@@ -48,8 +48,8 @@ jobs:
     timeout-minutes: 5
 
     steps:
-      - run: echo "/root/.local/bin" >> $GITHUB_PATH
       - uses: actions/checkout@v4
+      - run: echo "/root/.local/bin" >> $GITHUB_PATH
       - name: Install poetry
         run: pipx install poetry
       - uses: actions/setup-python@v4
