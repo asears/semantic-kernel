@@ -113,7 +113,6 @@ select = [
     "INP",
     "INT",
     "ISC",
-    # "LOG",
     "N",
     "NPY",
     "PD",
@@ -134,7 +133,6 @@ select = [
     "T20",
     "TCH",
     "TID",
-    "TRIO",
     "TRY",
     "UP",
     "W",
@@ -143,6 +141,8 @@ select = [
 
 [tool.ruff.lint]
 preview = true
+explicit-preview-rules = false
+extend-select = ["LOG","TRIO"]
 
 [tool.ruff.format]
 preview = true
