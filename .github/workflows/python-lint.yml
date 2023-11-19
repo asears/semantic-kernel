@@ -5,8 +5,17 @@ on:
     branches: [ "main", "feature*" ]
     paths:
       - 'python/**'
+  # TODO(AS): Temp testing
+  push:
+    paths:
+      - python/**
+
+defaults:
+  run:
+    working-directory: python
 
 jobs:
+
   ruff:
     strategy:
       fail-fast: false
@@ -14,6 +23,7 @@ jobs:
         python-version: ["3.8"]
     runs-on: ubuntu-latest
     timeout-minutes: 5
+
     steps:
       - run: echo "/root/.local/bin" >> $GITHUB_PATH
       - uses: actions/checkout@v4
@@ -25,9 +35,10 @@ jobs:
           cache: "poetry"
           cache-dependency-path: "python/pyproject.toml"
       - name: Install SemanticKernel
-        run: cd python && poetry install --no-ansi
+        run: poetry install --no-ansi
       - name: Run lint
-        run: cd python && poetry run ruff check .
+        run: poetry run ruff check .
+
   black:
     strategy:
       fail-fast: false
@@ -35,6 +46,7 @@ jobs:
         python-version: ["3.8"]
     runs-on: ubuntu-latest
     timeout-minutes: 5
+
     steps:
       - run: echo "/root/.local/bin" >> $GITHUB_PATH
       - uses: actions/checkout@v4
@@ -46,6 +58,6 @@ jobs:
           cache: "poetry"
           cache-dependency-path: "python/pyproject.toml"
       - name: Install SemanticKernel
-        run: cd python && poetry install --no-ansi
+        run: poetry install --no-ansi
       - name: Run lint
-        run: cd python && poetry run black --check .
+        run: poetry run black --check .
